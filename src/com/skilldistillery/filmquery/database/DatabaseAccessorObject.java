@@ -129,5 +129,44 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		
 		return actors;
 	}
-
+	
+	public void lookupFilm(String filmId) throws SQLException {
+		String user = "student";
+		String pass = "student";
+		Connection conn = DriverManager.getConnection(URL, user, pass);
+		String filmTitle = "%" + filmId + "%";
+		String sql = "SELECT title, description FROM film WHERE title LIKE ? OR description LIKE ? ";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, filmTitle);
+		stmt.setString(2, filmTitle);
+		ResultSet rs = stmt.executeQuery();
+		
+		int count = 0;
+		while (rs.next()) {
+			int id = rs.getInt(1);
+			String title = rs.getString(1);
+			String desc = rs.getString(2);
+			int releaseYear = rs.getInt(4);
+			int languageId = rs.getInt(5);
+			int rentDur = rs.getInt(6);
+			double rentRate = rs.getDouble(7);
+			int length = rs.getInt(8);
+			double replacementCost = rs.getDouble(9);
+			String rating = rs.getString(10);
+			String specialFeat = rs.getString(11);
+			
+			count++;
+			System.out.println(title + " " + desc);
+			
+//			System.out.println(id + " " + title + " " + desc + " " 
+//			+ releaseYear + " " + languageId + " " + rentDur + " " + rentRate+ " "
+//			+ length + " " + replacementCost + " " + rating + " " + specialFeat );
+		}
+		if (count == 0) {
+			System.out.println("Film not found");
+		}
+		rs.close();
+		stmt.close();
+		conn.close();
+	}
 }
