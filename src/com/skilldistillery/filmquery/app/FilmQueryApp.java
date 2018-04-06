@@ -1,5 +1,6 @@
 package com.skilldistillery.filmquery.app;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
@@ -43,6 +44,7 @@ public class FilmQueryApp {
     		System.out.print("Enter a film id: ");
     		int id = input.nextInt(); 
     		Film film = db.getFilmById(id);
+    		
     		if (film == null) {
     			System.out.println("\nInvalid id, film not found.\n");
     		}
@@ -53,7 +55,19 @@ public class FilmQueryApp {
     		launch();    			
     }
     else if (selection == 2) {
-    	
+    		System.out.print("Enter a keyword: ");
+    		String keyword = input.next(); 
+    		List<Film> films = db.lookupFilm(keyword);
+    		
+    		if (films.size() == 0) {
+    			System.out.println("\nInvalid id, film not found.\n");
+    			launch();
+    		}
+    		else {
+    			//See "todo" on line 51
+    			System.out.println(films + "\n");
+    			launch();
+    		}
     }
     else if (selection == 3) {
     		System.out.println("Goodbye");

@@ -130,43 +130,50 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return actors;
 	}
 	
-	public void lookupFilm(String filmId) throws SQLException {
-		String user = "student";
-		String pass = "student";
-		Connection conn = DriverManager.getConnection(URL, user, pass);
-		String filmTitle = "%" + filmId + "%";
-		String sql = "SELECT title, description FROM film WHERE title LIKE ? OR description LIKE ? ";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, filmTitle);
-		stmt.setString(2, filmTitle);
-		ResultSet rs = stmt.executeQuery();
-		
-		int count = 0;
-		while (rs.next()) {
-			int id = rs.getInt(1);
-			String title = rs.getString(1);
-			String desc = rs.getString(2);
-			int releaseYear = rs.getInt(4);
-			int languageId = rs.getInt(5);
-			int rentDur = rs.getInt(6);
-			double rentRate = rs.getDouble(7);
-			int length = rs.getInt(8);
-			double replacementCost = rs.getDouble(9);
-			String rating = rs.getString(10);
-			String specialFeat = rs.getString(11);
+	@Override
+	public List<Film> lookupFilm(String keyword) {
+		List<Film> films = new ArrayList<>(); 
+		try {
+			Connection conn = DriverManager.getConnection(URL, user, pass);
 			
-			count++;
-			System.out.println(title + " " + desc);
+			String newKeyword = "%" + keyword + "%";
+			String sql = "SELECT id, title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features FROM film WHERE title LIKE ? OR description LIKE ? ";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, newKeyword);
+			stmt.setString(2, newKeyword);
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				int id = rs.getInt(1);
+				String title = rs.getString(2);
+				String desc = rs.getString(3);
+				int releaseYear = rs.getInt(4);
+				int languageId = rs.getInt(5);
+				int rentalDuration = rs.getInt(6);
+				double rentalRate = rs.getDouble(7);
+				int movieLength = rs.getInt(8);
+				double replacementCost = rs.getDouble(9);
+				String rating = rs.getString(10);
+				String specialFeatures = rs.getString(11);
+//				System.out.println(id + " " +  title + " " + desc);
+				List<Actor> actors = getActorsByFilmId(id);
+				
+				Film film = new Film(id, title, desc, releaseYear, languageId, rentalDuration, rentalRate, movieLength, replacementCost, rating, specialFeatures, actors);				
+				films.add(film);
 			
 //			System.out.println(id + " " + title + " " + desc + " " 
 //			+ releaseYear + " " + languageId + " " + rentDur + " " + rentRate+ " "
 //			+ length + " " + replacementCost + " " + rating + " " + specialFeat );
+			}
+			
+			rs.close();
+			stmt.close();
+			conn.close();
 		}
-		if (count == 0) {
-			System.out.println("Film not found");
+		catch (SQLException e) {
+			System.err.println("Unable to access DB.");
+			e.printStackTrace();
 		}
-		rs.close();
-		stmt.close();
-		conn.close();
+		return films;
 	}
 }
