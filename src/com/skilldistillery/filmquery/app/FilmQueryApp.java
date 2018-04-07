@@ -46,11 +46,10 @@ public class FilmQueryApp {
     		Film film = db.getFilmById(id);
     		
     		if (film == null) {
-    			System.out.println("\nInvalid id, film not found.\n");
+    			System.out.println("\nFilm not found.\n");
     		}
     		else {
-    			//TODO: make method to print film more nicely
-    			System.out.println(film + "\n");
+    			film.printFilm(film); 
     		}
     		launch();    			
     }
@@ -60,12 +59,14 @@ public class FilmQueryApp {
     		List<Film> films = db.lookupFilm(keyword);
     		
     		if (films.size() == 0) {
-    			System.out.println("\nInvalid id, film not found.\n");
+    			System.out.println("\nFilm not found.\n");
     			launch();
     		}
     		else {
-    			//See "todo" on line 51
-    			System.out.println(films + "\n");
+    			//See "todo" on line 51, add loop for list
+    			for (Film film : films) {
+    				film.printFilm(film);
+    			}
     			launch();
     		}
     }

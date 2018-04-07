@@ -3,21 +3,23 @@ package com.skilldistillery.filmquery.entities;
 import java.util.List;
 
 public class Film {
-	private int id; 
-	private String title; 
+	private int id;
+	private String title;
 	private String description;
-	private int releaseYear; 
-	private int languageId; 
-	private int rentalDuration; 
+	private int releaseYear;
+	private int languageId;
+	private int rentalDuration;
 	private double rentalRate;
-	private int movieLength; 
-	private double replacementCost; 
-	private String rating; 
+	private int movieLength;
+	private double replacementCost;
+	private String rating;
 	private String specialFeatures;
 	private List<Actor> actors;
-	
+	private String language;
+
 	public Film(int id, String title, String description, int releaseYear, int languageId, int rentalDuration,
-			double rentalRate, int movieLength, double replacementCost, String rating, String specialFeatures, List<Actor> actors) {
+			double rentalRate, int movieLength, double replacementCost, String rating, String specialFeatures,
+			List<Actor> actors, String language) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -31,22 +33,33 @@ public class Film {
 		this.rating = rating;
 		this.specialFeatures = specialFeatures;
 		this.actors = actors;
+		this.language = language;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 	@Override
 	public String toString() {
-		return "Film id:" + id + ", title:" + title + ", description:" + description + ", release year:" + releaseYear
-				+ ", language Id:" + languageId + ", rental duration:" + rentalDuration + ", rental rate:" + rentalRate
-				+ ", movieLength:" + movieLength + ", replacementCost:" + replacementCost + ", rating:" + rating
-				+ ", special features:" + specialFeatures + ", \nActors: " + actors;
+		return "Film [id=" + id + ", title=" + title + ", description=" + description + ", releaseYear=" + releaseYear
+				+ ", languageId=" + languageId + ", rentalDuration=" + rentalDuration + ", rentalRate=" + rentalRate
+				+ ", movieLength=" + movieLength + ", replacementCost=" + replacementCost + ", rating=" + rating
+				+ ", specialFeatures=" + specialFeatures + ", actors=" + actors + ", language=" + language + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((actors == null) ? 0 : actors.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + id;
+		result = prime * result + ((language == null) ? 0 : language.hashCode());
 		result = prime * result + languageId;
 		result = prime * result + movieLength;
 		result = prime * result + ((rating == null) ? 0 : rating.hashCode());
@@ -71,6 +84,12 @@ public class Film {
 		if (getClass() != obj.getClass())
 			return false;
 		Film other = (Film) obj;
+		if (actors == null) {
+			if (other.actors != null)
+				return false;
+		}
+		else if (!actors.equals(other.actors))
+			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
@@ -78,6 +97,12 @@ public class Film {
 		else if (!description.equals(other.description))
 			return false;
 		if (id != other.id)
+			return false;
+		if (language == null) {
+			if (other.language != null)
+				return false;
+		}
+		else if (!language.equals(other.language))
 			return false;
 		if (languageId != other.languageId)
 			return false;
@@ -206,5 +231,13 @@ public class Film {
 
 	public void setActors(List<Actor> actors) {
 		this.actors = actors;
+	}
+
+	public void printFilm(Film film) {
+		System.out.println("\nTitle: " + film.getTitle());
+		System.out.println("Release Year: " + film.getReleaseYear());
+		System.out.println("Rating: " + film.getRating());
+		System.out.println("Summary: " + film.getDescription());
+		System.out.println("Language: " + film.getLanguage() + "\n");
 	}
 }
