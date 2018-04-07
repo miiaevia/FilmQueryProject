@@ -240,4 +240,21 @@ public class Film {
 		System.out.println("Summary: " + film.getDescription());
 		System.out.println("Language: " + film.getLanguage() + "\n");
 	}
+	
+	public void printFilmCast(Film film) {
+		System.out.println("\nTitle: " + film.getTitle());
+		System.out.println("Release Year: " + film.getReleaseYear());
+		System.out.println("Rating: " + film.getRating());
+		System.out.println("Summary: " + film.getDescription());
+		System.out.println("Language: " + film.getLanguage() + "\n");
+		printCast(getActors());
+	}
+	
+	public void printCast(List<Actor> cast) {
+		System.out.println("Cast: ");
+		for (Actor actor : cast) {
+			System.out.println("\t" + actor.getFirstName() + " " + actor.getLastName());
+		}
+		System.out.println();
+	}
 }

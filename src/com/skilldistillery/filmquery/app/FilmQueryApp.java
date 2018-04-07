@@ -49,7 +49,7 @@ public class FilmQueryApp {
     			System.out.println("\nFilm not found.\n");
     		}
     		else {
-    			film.printFilm(film); 
+    			film.printFilmCast(film); 
     		}
     		launch();    			
     }
@@ -65,7 +65,7 @@ public class FilmQueryApp {
     		else {
     			//See "todo" on line 51, add loop for list
     			for (Film film : films) {
-    				film.printFilm(film);
+    				film.printFilmCast(film);
     			}
     			launch();
     		}
